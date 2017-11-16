@@ -1,7 +1,9 @@
 import pickle
 import nltk
 import numpy as np
+import string
 from collections import defaultdict
+from collections import Counter
 sentence_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 word_tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
 from collections import defaultdict
@@ -45,16 +47,36 @@ class FeatureExtractor:
         entire_corpus=''
         for key in self.author_text_dict:
             entire_corpus=entire_corpus+' '.join(self.author_text_dict[key])
-        NUM_TOP_WORDS = 500
+        #Cleaning th corpus a bit
+        #Removing punctuations
+        table = string.maketrans("","")
+        entire_corpus=str(entire_corpus)
+        entire_corpus=entire_corpus.translate(table, string.punctuation)
+        #Converting to lowercase
+        entire_corpus=entire_corpus.lower()
+        
+        f = open("test.txt","w")
+        f.write(entire_corpus)
+        f.close()
+        NUM_TOP_WORDS = 20
         all_tokens = nltk.word_tokenize(entire_corpus)
-        fdist = nltk.FreqDist(all_tokens)
-        vocab = fdist.keys()[:NUM_TOP_WORDS]
+        fdist = nltk.FreqDist(all_tokens)        
+        list_of_most_common_words_in_corpus=[]
+        for word, frequency in fdist.most_common(NUM_TOP_WORDS):
+            list_of_most_common_words_in_corpus.append(word)
+        print list_of_most_common_words_in_corpus            
         
-        print vocab
+        bag_of_words_feat=defaultdict(lambda:np.zeros([1,NUM_TOP_WORDS]))
+        for author in self.author_text_dict:
+            author_works=' '.join(self.author_text_dict[author])
+            all_tokens = nltk.word_tokenize(author_works)
+            fdist = nltk.FreqDist(all_tokens)  
+            
+              
             
             
         
-obj=FeatureExtractor('SmallTrain')
+obj=FeatureExtractor('LargeTrain')
 #lexical_features=obj.extract_lexical_features()
 #punct_features=obj.punctuation_feat_extractor()
 obj.bag_of_words_feat_extractor()
