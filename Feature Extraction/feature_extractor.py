@@ -64,21 +64,29 @@ class FeatureExtractor:
         list_of_most_common_words_in_corpus=[]
         for word, frequency in fdist.most_common(NUM_TOP_WORDS):
             list_of_most_common_words_in_corpus.append(word)
-        print list_of_most_common_words_in_corpus            
+               
         
         bag_of_words_feat=defaultdict(lambda:np.zeros([1,NUM_TOP_WORDS]))
         for author in self.author_text_dict:
             author_works=' '.join(self.author_text_dict[author])
             all_tokens = nltk.word_tokenize(author_works)
             fdist = nltk.FreqDist(all_tokens)  
+            total_num_tokens=len(all_tokens)
+            index=0
+            for word in list_of_most_common_words_in_corpus:
+                bag_of_words_feat[author][0,index]=fdist[word]#/total_num_tokens
+                index=index+1
+            bag_of_words_feat[author]=bag_of_words_feat[author]/np.linalg.norm(bag_of_words_feat[author])
+        return bag_of_words_feat
+                
             
               
             
             
         
 obj=FeatureExtractor('LargeTrain')
-#lexical_features=obj.extract_lexical_features()
-#punct_features=obj.punctuation_feat_extractor()
-obj.bag_of_words_feat_extractor()
+lexical_features=obj.extract_lexical_features()
+punct_features=obj.punctuation_feat_extractor()
+bag_of_words_feats=obj.bag_of_words_feat_extractor()
             
         
