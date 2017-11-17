@@ -37,11 +37,11 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test) 
 
 knn = neighbors.KNeighborsClassifier()
-logistic = linear_model.LogisticRegression(multi_class='multinomial',solver='lbfgs',max_iter=100)
-print('LogisticRegression score: %f'
+logistic = linear_model.LogisticRegression(multi_class='multinomial',solver='lbfgs',max_iter=500)
+print('LogisticRegression validation score: %f'
       % logistic.fit(X_train, y_train).score(X_test, y_test))   
-print('KNN score: %f' % knn.fit(X_train, y_train).score(X_test, y_test))
+print('KNN validation score: %f' % knn.fit(X_train, y_train).score(X_test, y_test))
 
-clf = MLPClassifier(solver='lbfgs', alpha=0.1,hidden_layer_sizes=(100,100), random_state=1)
-print('NN score: %f' % clf.fit(X_train, y_train).score(X_test, y_test))
+clf = MLPClassifier(solver='adam', alpha=0.1,hidden_layer_sizes=(100), random_state=1,max_iter=1000)
+print('NN validation score: %f' % clf.fit(X_train, y_train).score(X_test, y_test))
 
