@@ -28,7 +28,7 @@ def getFeature(text):
     # Colons per sentence
     fvs[5] = tokens.count(':') / float(len(sentences))
     
-    fvs[:6]=fvs[:6]/np.linalg.norm(fvs[:6])
+    #fvs[:6]=fvs[:6]/np.linalg.norm(fvs[:6])
     # Word counts for some common words(Normalized)    
     fdist = nltk.FreqDist(tokens)  
     TOP_WORDS=['the','be','to','of','and','a','in','that','have','i']
@@ -36,7 +36,7 @@ def getFeature(text):
     for word in TOP_WORDS:
         fvs[index]=fdist[word]#/total_num_tokens
         index=index+1
-    fvs[6:]=fvs[6:]/np.linalg.norm(fvs[6:])
+    #fvs[6:]=fvs[6:]/np.linalg.norm(fvs[6:])
     return fvs
     
     

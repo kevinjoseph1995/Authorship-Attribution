@@ -2,7 +2,7 @@ import pickle
 from sklearn import  linear_model,neighbors
 from sklearn.neural_network import MLPClassifier
 import numpy as np
-
+from sklearn.preprocessing import StandardScaler 
 
 
 
@@ -30,12 +30,18 @@ y_train = Y[:int(.90 * n_samples)]
 X_test = X[int(.90 * n_samples):]
 y_test = Y[int(.90 * n_samples):]
 
+scaler = StandardScaler()  
+scaler.fit(X_train)  
+X_train = scaler.transform(X_train)  
+# applying same transformation to test data
+X_test = scaler.transform(X_test) 
+
 knn = neighbors.KNeighborsClassifier()
 logistic = linear_model.LogisticRegression(multi_class='multinomial',solver='lbfgs',max_iter=100)
 print('LogisticRegression score: %f'
       % logistic.fit(X_train, y_train).score(X_test, y_test))   
 print('KNN score: %f' % knn.fit(X_train, y_train).score(X_test, y_test))
 
-clf = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(2000), random_state=1)
+clf = MLPClassifier(solver='lbfgs', alpha=0.1,hidden_layer_sizes=(100,100), random_state=1)
 print('NN score: %f' % clf.fit(X_train, y_train).score(X_test, y_test))
 
