@@ -60,3 +60,6 @@ for author in test_feature_vectors:
     author_index+=1
 X_test = scaler.transform(X_test) 
 print ('NN test score: %f' % clf.score(X_test,Y_test))
+print('LogisticRegression test score: %f'
+      % logistic.score(X_test, Y_test))   
+print('KNN test score: %f' % knn.score(X_test, Y_test))
