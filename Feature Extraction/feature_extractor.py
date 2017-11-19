@@ -43,13 +43,13 @@ def getFeature(text):
     
 
 
-author_text_dict=pickle.load( open( "TrainData.p", "rb" ) )
+author_text_dict=pickle.load( open( "TestData.p", "rb" ) )
 feature_vector=defaultdict(list)
 for author in author_text_dict:
     for text in author_text_dict[author]:
         feature_vector[author].append(getFeature(text))
 
-pickle.dump(feature_vector, open( "training_features.p", "wb" ) )    
+pickle.dump(feature_vector, open( "test_features.p", "wb" ) )    
     
             
         
