@@ -42,7 +42,7 @@ print('LogisticRegression validation score: %f'
       % logistic.fit(X_train, y_train).score(X_val, y_val))   
 print('KNN validation score: %f' % knn.fit(X_train, y_train).score(X_val, y_val))
 
-clf = MLPClassifier(solver='adam', alpha=0.1,hidden_layer_sizes=(100), random_state=1,max_iter=1000)
+clf = MLPClassifier(solver='lbfgs', alpha=0.1,hidden_layer_sizes=(100), random_state=1,max_iter=1000)
 print('NN validation score: %f' % clf.fit(X_train, y_train).score(X_val, y_val))
 
 test_feature_vectors=pickle.load( open( "test_features.p", "rb" ) )
